@@ -21,6 +21,9 @@ metadata:
   labels:
     app: kr8sswordz
 spec:
+  selector:
+    matchLabels:
+      app: kr8sswordz
   strategy:
     type: Recreate
   template:
@@ -37,19 +40,19 @@ spec:
         - containerPort: 3002
           name: kr8sswordz
 ---
-apiVersion: apps/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: kr8sswordz
 spec:
-  backend:
-    serviceName: kr8sswordz
-    servicePort: 80
   rules:
   - host: kr8sswordz.192.168.49.2.xip.io
     http:
       paths:
       - path: /
+        pathType: ImplementationSpecific
         backend:
-          serviceName: kr8sswordz
-          servicePort: 80
+          service:
+            name: kr8sswordz
+            port:
+              number: 80

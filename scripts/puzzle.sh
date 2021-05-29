@@ -6,9 +6,6 @@ BUILD_TAG=`git rev-parse --short HEAD`
 #Build the docker image
 docker build -t 192.168.49.2:30400/puzzle:$BUILD_TAG -f applications/puzzle/Dockerfile applications/puzzle
 
-#Setup the proxy for the registry
-docker stop socat-registry; docker rm socat-registry; docker run -d -e "REG_IP=`minikube ip`" -e "REG_PORT=30400" --name socat-registry -p 30400:5000 socat-registry
-
 echo "5 second sleep to make sure the registry is ready"
 sleep 5;
 
